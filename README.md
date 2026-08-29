@@ -1,6 +1,7 @@
 <div align="center">
     <h3><b><I>rowlite</i></b></h3>
     <p>minimalistic sql client for postgres, mysql and sqlite</p>
+    <img src="https://cdn.jsdelivr.net/gh/eryajf/tu@main/img/image_20240420_214408.gif" width="800"  height="3">
 </div>
 
 ## Features
