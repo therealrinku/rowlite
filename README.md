@@ -1,6 +1,7 @@
 <div align="center">
     <h3><b><I>rowlite</i></b></h3>
     <p>minimalistic sql client for postgres, mysql and sqlite</p>
+    <img width="705" height="410" alt="Screenshot 2026-08-29 at 13 18 07" src="https://github.com/user-attachments/assets/92e6583c-0f7a-410a-8a67-58b877871f28" />
 </div>
 
 ## Features
@@ -17,8 +18,6 @@
 
 
 ## Screenshots
-
-<img width="1438" height="873" alt="Screenshot 2026-08-29 at 13 06 09" src="https://github.com/user-attachments/assets/6d5a3589-20a9-431a-a41e-2e54f61ae3ee" />
 
 
 ## Tech Stack
