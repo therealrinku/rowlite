@@ -48,7 +48,7 @@ export default defineComponent({
 
 <template>
   <main
-    class="text-xs text-black min-h-screen min-w-screen text-sm tracking-wide flex flex-col items-center gap-5 w-full pb-10"
+    class="text-xs text-black h-screen min-w-screen text-sm tracking-wide flex flex-col items-center gap-5 w-full overflow-y-hidden"
   >
 
      <Header/>
