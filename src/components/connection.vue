@@ -69,23 +69,23 @@ export default defineComponent({
 
 <template>
    <div class="w-full flex items-start">
-    <div class="fixed left-0 top-8 pt-1 bg-gray-100 w-[200px] min-h-screen flex flex-col">
+    <div class="fixed left-0 top-8 pt-1 bg-gray-100 w-[200px] min-h-screen flex flex-col overflow-y-auto">
         <b class="px-5 mb-2 mt-1">Tables</b>
-        <button @click="fetchTable(table.name)" v-for="table in tables" class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5" :class="{ 'bg-gray-200 font-semibold': selectedTable === table.name }" >
+        <button @click="fetchTable(table.name)" v-for="table in tables" class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5 text-ellipsis" :class="{ 'bg-gray-200': selectedTable === table.name }" >
            <Table :size="14"/>
-           <p>{{ table.name }}</p>
+           <p class="max-w-[85%] truncate">{{ table.name }}</p>
         </button>
      </div>
 
-    <div class="ml-[200px] pt-8 w-full">
-      <table class="min-w-full border-collapse">
+    <div class="ml-[200px] w-full overflow-x-auto">
+      <table class="min-w-full border-collapse  overflow-x-auto">
 
       <thead class="bg-gray-50 sticky top-8">
         <tr>
           <th
             v-for="column in columns"
             :key="column"
-            class="border-b border-gray-200 px-4 py-2 text-left font-bold text-gray-600"
+            class="border-b border-gray-200 px-4 py-2 text-left font-bold text-gray-600 max-w-[200px] truncate"
           >
             {{ column }}
           </th>
@@ -102,7 +102,7 @@ export default defineComponent({
           <td
             v-for="column in columns"
             :key="column"
-            class="border-b border-gray-100 px-4 py-2 text-gray-800"
+            class="border-b border-gray-100 px-4 py-2 text-gray-800 max-w-[200px] truncate"
           >
             {{ row[column] }}
           </td>
