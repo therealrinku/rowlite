@@ -15,31 +15,11 @@ export default defineComponent({
   },
   data() {
     return {
+      tables: [],
       isConnected: false,
       connectionName: null,
-      results: [
-  {
-    id: 1,
-    name: 'Alice',
-    email: 'alice@example.com',
-  },
-  {
-    id: 2,
-    name: 'Bob',
-    email: 'bob@example.com',
-  },
-  {
-    id: 3,
-    name: 'Charlie',
-    email: 'charlie@example.com',
-  },
-  {
-    id: 4,
-    name: 'Puth',
-    email: 'puth@example.com',
-  },
-]
-
+      selectedTable: null,
+      tableData: {}
     };
   },
   async mounted() {
@@ -51,6 +31,9 @@ export default defineComponent({
         this.connectionName = null;
         this.isConnected = false;
      });
+
+     const tables = await invoke("sqlite_get_tables");
+     this.tables = tables;
   },
   unmounted() {
     //window.removeEventListener('db:connected')
@@ -59,38 +42,44 @@ export default defineComponent({
   watch: {
   },
   computed: {
-    columns() {
-      if (!this.results.length) return []
+    tableRows() {
+      if (!this.tableData[this.selectedTable]) return []
 
-      return Object.keys(this.results[0])
+      return this.tableData[this.selectedTable].rows;
+    },
+    columns() {
+      if (!this.tableData[this.selectedTable]) return []
+
+      return this.tableData[this.selectedTable].columns
     }
   },
   methods: {
+    async fetchTable(tableName) {
+      this.selectedTable = tableName;
+
+      const resp = await invoke("sqlite_execute_query", { query: `select * from ${tableName}` })
+
+       this.tableData[this.selectedTable] = {};
+       this.tableData[this.selectedTable].rows = resp.rows;
+       this.tableData[this.selectedTable].columns = resp.columns;
+     }
   },
 });
 </script>
 
 <template>
    <div class="w-full flex items-start">
-    <div class="fixed left-0 top-8 pt-1 bg-gray-200 w-[200px] min-h-screen flex flex-col">
+    <div class="fixed left-0 top-8 pt-1 bg-gray-100 w-[200px] min-h-screen flex flex-col">
         <b class="px-5 mb-2 mt-1">Tables</b>
-        <button class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5 bg-gray-300">
+        <button @click="fetchTable(table.name)" v-for="table in tables" class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5" :class="{ 'bg-gray-200 font-semibold': selectedTable === table.name }" >
            <Table :size="14"/>
-           <p>users</p>
-        </button>        
-        <button class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5">
-           <Table :size="14"/>
-           <p>contracts</p>
-        </button>        
-        <button class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5">
-           <Table :size="14"/>
-           <p>clients</p>
-        </button>        
+           <p>{{ table.name }}</p>
+        </button>
      </div>
 
     <div class="ml-[200px] pt-8 w-full">
       <table class="min-w-full border-collapse">
-      <!-- Header -->
+
       <thead class="bg-gray-50 sticky top-8">
         <tr>
           <th
@@ -103,10 +92,10 @@ export default defineComponent({
         </tr>
       </thead>
 
-      <!-- Rows -->
+
       <tbody>
         <tr
-          v-for="(row, rowIndex) in results"
+          v-for="(row, rowIndex) in tableRows"
           :key="rowIndex"
           class="hover:bg-gray-50"
         >
@@ -123,4 +112,3 @@ export default defineComponent({
     </div>
     </div>
 </template>
-

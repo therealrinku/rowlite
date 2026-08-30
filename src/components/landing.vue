@@ -36,14 +36,16 @@ export default defineComponent({
   computed: {
   },
   methods: {
-    onConnect(connectionName) {
-      const connectEvent = new CustomEvent('db:connected', {
-      detail: {
-        connectionName,
+    async onConnect(connection) {
+      const resp = await invoke("sqlite_connect", { dbPath: connection.filePath })
+      if (resp.connected) {
+        const connectEvent = new CustomEvent('db:connected', {
+          detail: {
+            connectionName: connection.name,
+           }
+        });
+        window.dispatchEvent(connectEvent);
       }
-    });
-
-     window.dispatchEvent(connectEvent);
     },
     fetchConnections() {
       const connsJSON = localStorage.getItem("connections");
@@ -64,7 +66,7 @@ export default defineComponent({
    <div class="flex flex-col gap-5 w-[400px] mt-20">
      <div v-if="connections.length > 0" class="flex flex-col gap-5">
       <b>Saved connections - {{ connections.length }}</b>
-      <button @click="onConnect(connection.name)" v-for="connection in connections" class="border border-gray-100 p-2 flex items-center gap-5 hover:bg-gray-100 cursor-pointer">
+      <button @click="onConnect(connection)" v-for="connection in connections" class="border border-gray-100 p-2 flex items-center gap-5 hover:bg-gray-100 cursor-pointer">
         <Database/>
         <p>{{ connection.name }}</p>
       </button>
@@ -78,4 +80,3 @@ export default defineComponent({
      <AddConnectionForm v-if="showAddForm" :showCancel="connections.length>0" :onCancel="onCancelAdd" :onSave="onSave"/>
    </div>
 </template>
-

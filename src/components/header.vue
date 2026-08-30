@@ -40,8 +40,9 @@ export default defineComponent({
   computed: {
   },
   methods: {
-    closeConnection() {
-     window.dispatchEvent(new CustomEvent('db:disconnected'));
+    async closeConnection() {
+      await invoke("sqlite_disconnect");
+      window.dispatchEvent(new CustomEvent('db:disconnected'));
     }
   },
 });
@@ -68,5 +69,3 @@ export default defineComponent({
         </div>
     </div>
 </template>
-
-
