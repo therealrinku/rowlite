@@ -55,6 +55,8 @@ export default defineComponent({
         <div v-if="isConnected" class="flex items-center gap-5">
            <div class="flex items-center gap-2">
               <p>{{ connectionName }}</p>
+              <p>/</p>
+              <p>default</p>
            </div>
           <button class="flex items-center gap-2" @click="closeConnection"><EllipsisH :size="14"/></button>
           <!-- <button class="flex items-center gap-2" @click="closeConnection"><Code :size="14"/> SQL editor</button> -->
