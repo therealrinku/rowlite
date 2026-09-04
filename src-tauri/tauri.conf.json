@@ -14,9 +14,7 @@
       {
         "title": "rowlite",
         "width": 1000,
-        "height": 600,
-         "titleBarStyle": "Overlay",
-        "hiddenTitle": true
+        "height": 600
       }
     ],
     "security": {

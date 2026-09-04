@@ -7,6 +7,7 @@ import Header from "./components/header.vue";
 import Connection from "./components/connection.vue";
 import SortDownFill from '@primeicons/vue/sort-down-fill';
 import Play from '@primeicons/vue/play';
+import CommandPanel from "./components/command-panel.vue";
 
 export default defineComponent({
   name: "rowx",
@@ -15,15 +16,25 @@ export default defineComponent({
     Landing,
     SortDownFill,
     Play,
-    Connection
-  },
+    Connection,
+    CommandPanel
+},
   data() {
     return {
       isConnected: false,
-      connectionName: null
+      connectionName: null,
+      showCommandPanel: false
     };
   },
   async mounted() {
+     window.addEventListener("keydown", (event) => {
+       if(event.metaKey && event.key === "p") {
+         this.showCommandPanel = true;
+      }
+      if(event.key === "Escape") {
+        this.showCommandPanel = false;
+      }
+    })
      window.addEventListener('db:connected', (event) => {
         this.connectionName = event.detail.connectionName;
         this.isConnected = true;
@@ -42,6 +53,9 @@ export default defineComponent({
   computed: {
   },
   methods: {
+    onCloseCommandPanel(){
+      this.showCommandPael = false
+    }
   },
 });
 </script>
@@ -50,9 +64,9 @@ export default defineComponent({
   <main
     class="text-xs text-black h-screen min-w-screen text-sm tracking-wide flex flex-col items-center gap-5 w-full overflow-y-hidden"
   >
-
-     <Header/>
-     <Connection v-if="isConnected"/>
+     <Connection v-if="isConnected" :connectionName="connectionName" :isConnected="isConnected"/>
      <Landing v-else/>
+
+      <CommandPanel v-if="showCommandPanel" :connectionName="connectionName" :isConnected="isConnected" @onClose="onCloseCommandPanel"/>    
   </main>
 </template>
