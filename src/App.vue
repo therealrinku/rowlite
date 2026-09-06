@@ -5,8 +5,8 @@ import { listen } from "@tauri-apps/api/event";
 import Landing from "./components/landing.vue";
 import Header from "./components/header.vue";
 import Connection from "./components/connection.vue";
-import SortDownFill from '@primeicons/vue/sort-down-fill';
-import Play from '@primeicons/vue/play';
+import SortDownFill from "@primeicons/vue/sort-down-fill";
+import Play from "@primeicons/vue/play";
 import CommandPanel from "./components/command-panel.vue";
 
 export default defineComponent({
@@ -17,56 +17,63 @@ export default defineComponent({
     SortDownFill,
     Play,
     Connection,
-    CommandPanel
-},
+    CommandPanel,
+  },
   data() {
     return {
       isConnected: false,
       connectionName: null,
-      showCommandPanel: false
+      showCommandPanel: false,
     };
   },
   async mounted() {
-     window.addEventListener("keydown", (event) => {
-       if(event.metaKey && event.key === "p") {
-         this.showCommandPanel = true;
+    window.addEventListener("keydown", (event) => {
+      if (event.metaKey && event.key === "p") {
+        this.showCommandPanel = true;
       }
-      if(event.key === "Escape") {
+      if (event.key === "Escape") {
         this.showCommandPanel = false;
       }
-    })
-     window.addEventListener('db:connected', (event) => {
-        this.connectionName = event.detail.connectionName;
-        this.isConnected = true;
-     });
-     window.addEventListener('db:disconnected', (event) => {
-        this.connectionName = null;
-        this.isConnected = false;
-     });
+    });
+    window.addEventListener("db:connected", (event) => {
+      this.connectionName = event.detail.connectionName;
+      this.isConnected = true;
+    });
+    window.addEventListener("db:disconnected", (event) => {
+      this.connectionName = null;
+      this.isConnected = false;
+    });
   },
   unmounted() {
     //window.removeEventListener('db:connected')
     //window.removeEventListener('db:disconnected')
   },
-  watch: {
-  },
-  computed: {
-  },
+  watch: {},
+  computed: {},
   methods: {
-    onCloseCommandPanel(){
-      this.showCommandPael = false
-    }
+    onCloseCommandPanel() {
+      this.showCommandPael = false;
+    },
   },
 });
 </script>
 
 <template>
   <main
-    class="text-xs text-black h-screen min-w-screen text-sm tracking-wide flex flex-col items-center gap-5 w-full overflow-y-hidden"
+    class="bg-zinc-800 text-xs text-white min-h-screen pb-12 min-w-screen text-sm tracking-wide flex flex-col items-center gap-5 w-full"
   >
-     <Connection v-if="isConnected" :connectionName="connectionName" :isConnected="isConnected"/>
-     <Landing v-else/>
+    <Connection
+      v-if="isConnected"
+      :connectionName="connectionName"
+      :isConnected="isConnected"
+    />
+    <Landing v-else />
 
-      <CommandPanel v-if="showCommandPanel" :connectionName="connectionName" :isConnected="isConnected" @onClose="onCloseCommandPanel"/>    
+    <CommandPanel
+      v-if="showCommandPanel"
+      :connectionName="connectionName"
+      :isConnected="isConnected"
+      @onClose="onCloseCommandPanel"
+    />
   </main>
 </template>

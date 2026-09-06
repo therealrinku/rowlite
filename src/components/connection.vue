@@ -20,8 +20,8 @@ export default defineComponent({
     },
     connectionName: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -48,7 +48,7 @@ export default defineComponent({
     columns() {
       if (!this.tableData[this.selectedTable]) return [];
 
-      return ['#', ...this.tableData[this.selectedTable].columns];
+      return ["#", ...this.tableData[this.selectedTable].columns];
     },
   },
   methods: {
@@ -70,9 +70,11 @@ export default defineComponent({
 <template>
   <div class="w-full flex items-start">
     <div
-      class="fixed left-0 top-0 pt-1 bg-gray-100 w-[220px] min-h-screen flex flex-col overflow-y-auto"
+      class="fixed left-0 top-0 pt-1 bg-zinc-700 w-[220px] min-h-screen flex flex-col overflow-y-auto"
     >
-      <div class="flex items-center gap-2 px-2 py-1 mx-5 border border-zinc-400">
+      <div
+        class="flex items-center gap-2 px-2 py-1 mx-5 border border-zinc-400"
+      >
         <p>{{ connectionName }}</p>
         <p>/</p>
         <p>default</p>
@@ -83,8 +85,8 @@ export default defineComponent({
       <button
         @click="fetchTable(table.name)"
         v-for="table in tables"
-        class="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-300 h-8 px-5 text-ellipsis"
-        :class="{ 'bg-gray-200': selectedTable === table.name }"
+        class="flex items-center gap-2 w-full cursor-pointer hover:bg-zinc-600 h-8 px-5 text-ellipsis"
+        :class="{ 'bg-zinc-600': selectedTable === table.name }"
       >
         <Table :size="14" />
         <p class="max-w-[85%] truncate">{{ table.name }}</p>
@@ -92,13 +94,13 @@ export default defineComponent({
     </div>
 
     <div class="ml-[220px] w-full overflow-x-auto overflow-y-auto max-h-screen">
-      <table class="min-w-full border-collapse">
-        <thead class="bg-gray-50">
+      <table class="min-w-full border-collapse bg-inherit">
+        <thead class="bg-inherit bg-zinc-800">
           <tr>
             <th
               v-for="column in columns"
               :key="column"
-              class="border-b border-gray-200 px-4 py-2 text-left font-bold text-gray-600 max-w-[200px] sticky  top-0 truncate bg-gray-50 z-0"
+              class="border-b border-zinc-700 px-4 py-2 text-left font-bold max-w-[200px] sticky top-0 truncate z-0 bg-zinc-800"
             >
               {{ column }}
             </th>
@@ -109,18 +111,27 @@ export default defineComponent({
           <tr
             v-for="(row, rowIndex) in tableRows"
             :key="rowIndex"
-            class="hover:bg-gray-50"
+            class="hover:bg-zinc-600"
           >
             <td
               v-for="column in columns"
               :title="row[column]"
               :key="column"
-              class="border-b border-gray-100 px-4 py-2 text-gray-800 max-w-[200px] truncate"
+              class="border-b border-zinc-600 px-4 py-2 max-w-[200px] truncate"
             >
-              <slot v-if="column==='#'">{{ rowIndex + 1 }}</slot>
-              <slot else> {{ row[column ]}}</slot>
+              <slot v-if="column === '#'">{{ rowIndex + 1 }}</slot>
+              <slot else> {{ row[column] }}</slot>
             </td>
           </tr>
+          <!-- <tr> -->
+          <!-- <td -->
+          <!-- v-for="(column, index) in columns" -->
+          <!-- :contenteditable="index >=1 ? true : false" -->
+          <!-- class="border border-zinc-200 px-4 py-2 max-w-[200px] truncate border outline-none" -->
+          <!-- > -->
+          <!-- <slot v-if="index===0">{{ tableRows.length + 1 }}</slot> -->
+          <!-- </td> -->
+          <!-- </tr> -->
         </tbody>
       </table>
     </div>
