@@ -56,7 +56,7 @@ export default defineComponent({
       this.selectedTable = tableName;
 
       const resp = await invoke("sqlite_execute_query", {
-        query: `select * from ${tableName} limit 100`,
+        query: `select * from '${tableName}' limit 100`,
       });
 
       this.tableData[this.selectedTable] = {};
