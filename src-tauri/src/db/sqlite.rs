@@ -229,7 +229,7 @@ pub async fn sqlite_get_tables(state: State<'_, DbState>) -> Result<Vec<TableInf
     let query = r#"
         SELECT name, type as table_type
         FROM sqlite_master
-        WHERE type IN ('table', 'view')
+        WHERE type IN ('table')
         AND name NOT LIKE 'sqlite_%'
         ORDER BY name
     "#;
