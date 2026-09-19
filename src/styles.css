@@ -3,3 +3,11 @@
 button:hover {
   cursor: pointer;
 }
+
+html,
+body,
+#root {
+  overscroll-behavior: none;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+}
