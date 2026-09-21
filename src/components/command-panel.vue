@@ -61,9 +61,9 @@ export default defineComponent({
     
   <div class="flex flex-col mt-12 h-screen">
     <div
-      class="bg-zinc-500 min-w-[400px] z-50 text-white"
+      class="bg-zinc-700 min-w-[400px] z-50 text-white"
     >
-      <input autofocus class="flex items-center gap-2 w-full p-3 border-b border-zinc-300 outline-none" placeholder="Search commands..."  type="text"/>
+      <input autofocus class="flex items-center gap-2 w-full p-3 border-b outline-none" placeholder="Search commands..."  type="text"/>
 
       <button class="flex items-center gap-2 hover:bg-zinc-400 w-full p-3">
         <Plus :size="15" /> <span>Add new row</span>
